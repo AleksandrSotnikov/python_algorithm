@@ -56,61 +56,61 @@ class AlgorithmTestCase(unittest.TestCase):
 class TestItem(unittest.TestCase):
 
     def test_item_creation(self):
-        item = ItemFactory.create_item(ItemType.Item)
-        self.assertEqual(item.get_item_type(), ItemType.Item)
+        item = ItemFactory.create_item(ItemType.ITEM)
+        self.assertEqual(item.get_item_type(), ItemType.ITEM)
         self.assertIsInstance(item, Item)
 
     def test_key_creation(self):
-        key = ItemFactory.create_item(ItemType.Key)
-        self.assertEqual(key.get_item_type(), ItemType.Key)
+        key = ItemFactory.create_item(ItemType.KEY)
+        self.assertEqual(key.get_item_type(), ItemType.KEY)
         self.assertIsInstance(key, Key)
 
     def test_box_creation_without_items(self):
-        box = ItemFactory.create_item(ItemType.Box)
-        self.assertEqual(box.get_item_type(), ItemType.Box)
+        box = ItemFactory.create_item(ItemType.BOX)
+        self.assertEqual(box.get_item_type(), ItemType.BOX)
         self.assertIsInstance(box, Box)
         self.assertEqual(len(box.items), 0)
 
     def test_box_creation_with_items(self):
-        key = ItemFactory.create_item(ItemType.Key)
-        item = ItemFactory.create_item(ItemType.Item)
-        box = ItemFactory.create_item(ItemType.Box, [key, item])
-        self.assertEqual(box.get_item_type(), ItemType.Box)
+        key = ItemFactory.create_item(ItemType.KEY)
+        item = ItemFactory.create_item(ItemType.ITEM)
+        box = ItemFactory.create_item(ItemType.BOX, [key, item])
+        self.assertEqual(box.get_item_type(), ItemType.BOX)
         self.assertIsInstance(box, Box)
         self.assertEqual(len(box.items), 2)
         self.assertIsInstance(box.items[0], Key)
         self.assertIsInstance(box.items[1], Item)
 
     def test_factory_returns_correct_types(self):
-        key = ItemFactory.create_item(ItemType.Key)
-        box = ItemFactory.create_item(ItemType.Box, [])
-        item = ItemFactory.create_item(ItemType.Item)
+        key = ItemFactory.create_item(ItemType.KEY)
+        box = ItemFactory.create_item(ItemType.BOX, [])
+        item = ItemFactory.create_item(ItemType.ITEM)
 
         self.assertIsInstance(key, Key)
         self.assertIsInstance(box, Box)
         self.assertIsInstance(item, Item)
 
     def test_is_a_box(self):
-        box = Item(ItemType.Box)
+        box = Item(ItemType.BOX)
         self.assertTrue(box.is_a_box())
         self.assertFalse(box.is_a_key())
         self.assertFalse(box.is_a_item())
 
     def test_is_a_key(self):
-        key = Item(ItemType.Key)
+        key = Item(ItemType.KEY)
         self.assertTrue(key.is_a_key())
         self.assertFalse(key.is_a_box())
         self.assertFalse(key.is_a_item())
 
     def test_is_a_item(self):
-        item = Item(ItemType.Item)
+        item = Item(ItemType.ITEM)
         self.assertTrue(item.is_a_item())
         self.assertFalse(item.is_a_box())
         self.assertFalse(item.is_a_key())
 
     def test_get_items(self):
-        key = Item(ItemType.Key)
-        item = Item(ItemType.Item)
+        key = Item(ItemType.KEY)
+        item = Item(ItemType.ITEM)
         box = Box([key, item])
 
         items = box.get_items()
@@ -122,7 +122,7 @@ class TestItem(unittest.TestCase):
 class LookForKeyTestCase(unittest.TestCase):
 
     def test_key_in_main_box(self):
-        key = Item(ItemType.Key)
+        key = Item(ItemType.KEY)
         main_box = Box([key])
 
         found_key = main_box.look_for_key()
@@ -130,23 +130,23 @@ class LookForKeyTestCase(unittest.TestCase):
         self.assertTrue(found_key.is_a_key())
 
     def test_key_in_inner_box(self):
-        key = Item(ItemType.Key)
+        key = Item(ItemType.KEY)
         inner_box = Box([key])
-        main_box = Box([Item(ItemType.Item), inner_box])
+        main_box = Box([Item(ItemType.ITEM), inner_box])
 
         found_key = main_box.look_for_key()
         self.assertIsNotNone(found_key)
         self.assertTrue(found_key.is_a_key())
 
     def test_key_not_found(self):
-        main_box = Box([Item(ItemType.Item), Box([Item(ItemType.Item)])])
+        main_box = Box([Item(ItemType.ITEM), Box([Item(ItemType.ITEM)])])
 
         found_key = main_box.look_for_key()
         self.assertIsNone(found_key)
 
     def test_multiple_boxes_with_key(self):
-        key = Item(ItemType.Key)
-        inner_box1 = Box([Item(ItemType.Item)])
+        key = Item(ItemType.KEY)
+        inner_box1 = Box([Item(ItemType.ITEM)])
         inner_box2 = Box([key])
         main_box = Box([inner_box1, inner_box2])
 
@@ -164,7 +164,7 @@ class LookForKeyTestCase(unittest.TestCase):
 class LookForKeyRecursionTestCase(unittest.TestCase):
 
     def test_key_in_main_box(self):
-        key = Item(ItemType.Key)
+        key = Item(ItemType.KEY)
         main_box = Box([key])
 
         found_key = main_box.look_for_key_recursion()
@@ -172,23 +172,23 @@ class LookForKeyRecursionTestCase(unittest.TestCase):
         self.assertTrue(found_key.is_a_key())
 
     def test_key_in_inner_box(self):
-        key = Item(ItemType.Key)
+        key = Item(ItemType.KEY)
         inner_box = Box([key])
-        main_box = Box([Item(ItemType.Item), inner_box])
+        main_box = Box([Item(ItemType.ITEM), inner_box])
 
         found_key = main_box.look_for_key_recursion()
         self.assertIsNotNone(found_key)
         self.assertTrue(found_key.is_a_key())
 
     def test_key_not_found(self):
-        main_box = Box([Item(ItemType.Item), Box([Item(ItemType.Item)])])
+        main_box = Box([Item(ItemType.ITEM), Box([Item(ItemType.ITEM)])])
 
         found_key = main_box.look_for_key_recursion()
         self.assertIsNone(found_key)
 
     def test_multiple_boxes_with_key(self):
-        key = Item(ItemType.Key)
-        inner_box1 = Box([Item(ItemType.Item)])
+        key = Item(ItemType.KEY)
+        inner_box1 = Box([Item(ItemType.ITEM)])
         inner_box2 = Box([key])
         main_box = Box([inner_box1, inner_box2])
 
