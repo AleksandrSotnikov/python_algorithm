@@ -1,6 +1,7 @@
 import unittest
 
 from codes.binary_search import *
+from codes.recursion.fact import *
 from codes.recursion.item import *
 from codes.selection_sort import *
 
@@ -201,6 +202,13 @@ class LookForKeyRecursionTestCase(unittest.TestCase):
 
         found_key = main_box.look_for_key_recursion()
         self.assertIsNone(found_key)
+
+
+class FactorialTestCase(unittest.TestCase):
+    def test_factorial(self):
+        self.assertEqual(fact(2), 2)
+        self.assertEqual(fact(3), 6)
+        self.assertEqual(fact(5), 120)
 
 
 if __name__ == '__main__':
