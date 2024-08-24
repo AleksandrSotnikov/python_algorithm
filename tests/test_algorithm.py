@@ -161,5 +161,47 @@ class LookForKeyTestCase(unittest.TestCase):
         self.assertIsNone(found_key)
 
 
+class LookForKeyRecursionTestCase(unittest.TestCase):
+
+    def test_key_in_main_box(self):
+        key = Item(ItemType.Key)
+        main_box = Box([key])
+
+        found_key = main_box.look_for_key_recursion()
+        self.assertIsNotNone(found_key)
+        self.assertTrue(found_key.is_a_key())
+
+    def test_key_in_inner_box(self):
+        key = Item(ItemType.Key)
+        inner_box = Box([key])
+        main_box = Box([Item(ItemType.Item), inner_box])
+
+        found_key = main_box.look_for_key_recursion()
+        self.assertIsNotNone(found_key)
+        self.assertTrue(found_key.is_a_key())
+
+    def test_key_not_found(self):
+        main_box = Box([Item(ItemType.Item), Box([Item(ItemType.Item)])])
+
+        found_key = main_box.look_for_key_recursion()
+        self.assertIsNone(found_key)
+
+    def test_multiple_boxes_with_key(self):
+        key = Item(ItemType.Key)
+        inner_box1 = Box([Item(ItemType.Item)])
+        inner_box2 = Box([key])
+        main_box = Box([inner_box1, inner_box2])
+
+        found_key = main_box.look_for_key_recursion()
+        self.assertIsNotNone(found_key)
+        self.assertTrue(found_key.is_a_key())
+
+    def test_empty_box(self):
+        main_box = Box([])
+
+        found_key = main_box.look_for_key_recursion()
+        self.assertIsNone(found_key)
+
+
 if __name__ == '__main__':
     unittest.main()

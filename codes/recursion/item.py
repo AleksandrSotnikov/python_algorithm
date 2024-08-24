@@ -42,6 +42,19 @@ class Box(Item):
                 return item
         return None
 
+    def look_for_key_recursion(self):
+        for item in self.items:
+            if item.is_a_box():
+                found_key = item.look_for_key_recursion()
+                if found_key is not None:  # Проверяем, найден ли ключ в рекурсивном вызове
+                    return found_key
+            elif item.is_a_key():
+                return item
+        return None
+
+
+
+
 
 class Key(Item):
     def __init__(self):
