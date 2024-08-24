@@ -1,4 +1,5 @@
 import unittest
+
 from codes.binary_search import binary_search
 from codes.binary_search import binary_search_count_operation
 
