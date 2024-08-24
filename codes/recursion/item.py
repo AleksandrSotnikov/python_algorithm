@@ -126,7 +126,6 @@ class ItemFactory:
         """
         if item_type == ItemType.KEY:
             return Key()
-        elif item_type == ItemType.BOX:
+        if item_type == ItemType.BOX:
             return Box(items if items is not None else [])
-        else:
-            return Item(item_type)
+        return Item(item_type)
