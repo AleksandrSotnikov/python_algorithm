@@ -53,7 +53,7 @@ class AlgorithmTestCase(unittest.TestCase):
         self.assertEqual(selection_sort_descending(int_list), [6, 5, 4, 3, 2, 1])
 
 
-class TestItemTypes(unittest.TestCase):
+class TestItem(unittest.TestCase):
 
     def test_item_creation(self):
         item = ItemFactory.create_item(ItemType.Item)
@@ -89,6 +89,76 @@ class TestItemTypes(unittest.TestCase):
         self.assertIsInstance(key, Key)
         self.assertIsInstance(box, Box)
         self.assertIsInstance(item, Item)
+
+    def test_is_a_box(self):
+        box = Item(ItemType.Box)
+        self.assertTrue(box.is_a_box())
+        self.assertFalse(box.is_a_key())
+        self.assertFalse(box.is_a_item())
+
+    def test_is_a_key(self):
+        key = Item(ItemType.Key)
+        self.assertTrue(key.is_a_key())
+        self.assertFalse(key.is_a_box())
+        self.assertFalse(key.is_a_item())
+
+    def test_is_a_item(self):
+        item = Item(ItemType.Item)
+        self.assertTrue(item.is_a_item())
+        self.assertFalse(item.is_a_box())
+        self.assertFalse(item.is_a_key())
+
+    def test_get_items(self):
+        key = Item(ItemType.Key)
+        item = Item(ItemType.Item)
+        box = Box([key, item])
+
+        items = box.get_items()
+        self.assertEqual(len(items), 2)
+        self.assertIs(items[0], key)
+        self.assertIs(items[1], item)
+
+
+class LookForKeyTestCase(unittest.TestCase):
+
+    def test_key_in_main_box(self):
+        key = Item(ItemType.Key)
+        main_box = Box([key])
+
+        found_key = main_box.look_for_key()
+        self.assertIsNotNone(found_key)
+        self.assertTrue(found_key.is_a_key())
+
+    def test_key_in_inner_box(self):
+        key = Item(ItemType.Key)
+        inner_box = Box([key])
+        main_box = Box([Item(ItemType.Item), inner_box])
+
+        found_key = main_box.look_for_key()
+        self.assertIsNotNone(found_key)
+        self.assertTrue(found_key.is_a_key())
+
+    def test_key_not_found(self):
+        main_box = Box([Item(ItemType.Item), Box([Item(ItemType.Item)])])
+
+        found_key = main_box.look_for_key()
+        self.assertIsNone(found_key)
+
+    def test_multiple_boxes_with_key(self):
+        key = Item(ItemType.Key)
+        inner_box1 = Box([Item(ItemType.Item)])
+        inner_box2 = Box([key])
+        main_box = Box([inner_box1, inner_box2])
+
+        found_key = main_box.look_for_key()
+        self.assertIsNotNone(found_key)
+        self.assertTrue(found_key.is_a_key())
+
+    def test_empty_box(self):
+        main_box = Box([])
+
+        found_key = main_box.look_for_key()
+        self.assertIsNone(found_key)
 
 
 if __name__ == '__main__':

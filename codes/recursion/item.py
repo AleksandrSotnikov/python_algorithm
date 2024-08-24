@@ -14,11 +14,33 @@ class Item:
     def get_item_type(self):
         return self.item_type
 
+    def is_a_box(self):
+        return self.item_type == ItemType.Box
+
+    def is_a_key(self):
+        return self.item_type == ItemType.Key
+
+    def is_a_item(self):
+        return self.item_type == ItemType.Item
+
 
 class Box(Item):
     def __init__(self, items: list[Item]):
         super().__init__(ItemType.Box)
         self.items = items
+
+    def get_items(self):
+        return self.items
+
+    def look_for_key(self):
+        pile = self.get_items()
+        while pile:
+            item = pile.pop()
+            if item.is_a_box():
+                pile.extend(item.get_items())
+            elif item.is_a_key():
+                return item
+        return None
 
 
 class Key(Item):
