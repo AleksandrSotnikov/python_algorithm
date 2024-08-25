@@ -8,6 +8,7 @@ import unittest
 from codes.binary_search import binary_search, binary_search_count_operation
 from codes.recursion.fact import fact
 from codes.recursion.item import ItemFactory, ItemType, Item, Box, Key
+from codes.recursion.sum_arr import sum_arr, sum_arr_recursive
 from codes.selection_sort import (
     finder_smallest_number_index,
     finder_largest_number_index,
@@ -256,6 +257,19 @@ class FactorialTestCase(unittest.TestCase):
         self.assertEqual(fact(2), 2)
         self.assertEqual(fact(3), 6)
         self.assertEqual(fact(5), 120)
+
+
+class SumArrayTestCase(unittest.TestCase):
+
+    def test_sum_array(self):
+        self.assertEqual(sum_arr([1, 2, 3, 4]), 10)
+        self.assertEqual(sum_arr([]), 0)
+        self.assertEqual(sum_arr([1]), 1)
+
+    def test_sum_array_recursion(self):
+        self.assertEqual(sum_arr_recursive([1, 2, 3, 4]), 10)
+        self.assertEqual(sum_arr_recursive([]), 0)
+        self.assertEqual(sum_arr_recursive([1]), 1)
 
 
 if __name__ == '__main__':
