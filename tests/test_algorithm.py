@@ -260,13 +260,22 @@ class FactorialTestCase(unittest.TestCase):
 
 
 class SumArrayTestCase(unittest.TestCase):
+    """
+    Тестовый класс для проверки функций суммирования массива.
+    """
 
     def test_sum_array(self):
+        """
+        Тестирует функцию sum_arr на различных входных данных.
+        """
         self.assertEqual(sum_arr([1, 2, 3, 4]), 10)
         self.assertEqual(sum_arr([]), 0)
         self.assertEqual(sum_arr([1]), 1)
 
     def test_sum_array_recursion(self):
+        """
+        Тестирует рекурсивную функцию sum_arr_recursive на различных входных данных.
+        """
         self.assertEqual(sum_arr_recursive([1, 2, 3, 4]), 10)
         self.assertEqual(sum_arr_recursive([]), 0)
         self.assertEqual(sum_arr_recursive([1]), 1)
