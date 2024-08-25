@@ -8,6 +8,7 @@ import unittest
 from codes.binary_search import binary_search, binary_search_count_operation
 from codes.recursion.fact import fact
 from codes.recursion.item import ItemFactory, ItemType, Item, Box, Key
+from codes.recursion.quick_sort import quik_sort
 from codes.recursion.sum_arr import sum_arr, sum_arr_recursive
 from codes.selection_sort import (
     finder_smallest_number_index,
@@ -279,6 +280,30 @@ class SumArrayTestCase(unittest.TestCase):
         self.assertEqual(sum_arr_recursive([1, 2, 3, 4]), 10)
         self.assertEqual(sum_arr_recursive([]), 0)
         self.assertEqual(sum_arr_recursive([1]), 1)
+
+
+class QuikSortTestCase(unittest.TestCase):
+    """
+    Тестовый случай для проверки работы функции быстрой сортировки (quik_sort).
+    """
+
+    def test_quik_sort(self):
+        """
+        Проверяет правильность работы функции quik_sort с различными входными данными.
+        """
+        test_cases = [
+            ([1, 3, 5, 7, 9, 11, 13, 15, 2, 4, 6, 8, 10, 12, 14, 16, 3, 4],
+             [1, 2, 3, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]),
+            ([7, 3, 5, 7, 9, 11, 13, 15, 2, 4, 6, 8, 10, 12, 14, 16, 3, 4],
+             [2, 3, 3, 4, 4, 5, 6, 7, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]),
+            ([10, 7, 8, 9, 1, 5], [1, 5, 7, 8, 9, 10]),
+            ([3, 3, 3], [3, 3, 3]),
+            ([], []),
+        ]
+
+        for input_arr, expected_output in test_cases:
+            with self.subTest(input_arr=input_arr):
+                self.assertEqual(quik_sort(input_arr), expected_output)
 
 
 if __name__ == '__main__':
